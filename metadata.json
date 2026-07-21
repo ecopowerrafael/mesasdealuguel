@@ -1,0 +1,6 @@
+{
+  "name": "FestSul Locações para Eventos",
+  "description": "Site profissional, moderno e elegante para a FestSul Locações para Eventos, especialista em locação de louças, talheres, taças, copos, mesas e cadeiras para eventos em Porto Alegre e Região Metropolitana.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

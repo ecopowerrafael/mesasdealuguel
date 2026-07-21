@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cinzel", Georgia, serif;
+  
+  --color-brand-green: #173D2D;
+  --color-brand-gold: #C8A86A;
+  --color-brand-gold-dark: #b39254;
+  --color-brand-gray: #F7F7F5;
+  --color-brand-dark: #0f291e;
+}
+
+/* Custom scrollbar to match the premium theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F7F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #173D2D;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C8A86A;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
