@@ -5,7 +5,7 @@ export const categories: Category[] = [
     id: "loucas",
     title: "Louças",
     icon: "Utensils",
-    image: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&q=80&w=800",
+    image: "https://www.nortefesta.com.br/wp-content/uploads/2019/03/Talheres.jpg",
     description: "Porcelanas brancas sofisticadas com acabamento impecável para valorizar a sua mesa posta.",
     products: [
       {
@@ -44,7 +44,7 @@ export const categories: Category[] = [
     id: "talheres",
     title: "Talheres",
     icon: "ForkSpoon",
-    image: "https://images.unsplash.com/photo-1543510473-ac2c35329a28?auto=format&fit=crop&q=80&w=800",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGcQpDTvvXqeW9WUCRY5AQ90Ko9UILYmyWyT8hH_R7CxeZCENo7MQpytI&s=10",
     description: "Talheres de aço inoxidável gourmet com brilho duradouro e design moderno.",
     products: [
       {
@@ -83,7 +83,7 @@ export const categories: Category[] = [
     id: "tacas",
     title: "Taças",
     icon: "Wine",
-    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.tcdn.com.br/img/img_prod/584235/kit_cocktail_com_4_tacas_mixologista_vidro_ruvolo_438984884_1_dcd80a06bfcd785dd36def9c0acc77b8_20250317122052.jpg",
     description: "Taças de cristal nobre e vidro lapidado que refletem a sofisticação da sua festa.",
     products: [
       {
@@ -116,7 +116,7 @@ export const categories: Category[] = [
     id: "copos",
     title: "Copos",
     icon: "GlassWater",
-    image: "https://images.unsplash.com/photo-1569529465841-df8201f9c1c1?auto=format&fit=crop&q=80&w=800",
+    image: "https://damsfestas.com.br/wp-content/uploads/2016/03/copos.jpg",
     description: "Copos de design contemporâneo e excelente transparência para drinks e cervejas.",
     products: [
       {
@@ -182,7 +182,7 @@ export const categories: Category[] = [
     id: "cadeiras",
     title: "Cadeiras",
     icon: "Armchair",
-    image: "https://images.unsplash.com/photo-1561677978-583a8c7a4b43?auto=format&fit=crop&q=80&w=800",
+    image: "https://donylocacoes.com.br/wp-content/uploads/2020/06/Cadeira-de-Ferro-Branca.jpg",
     description: "Cadeiras ergonômicas, luxuosas e conservadas que garantem beleza e conforto.",
     products: [
       {
@@ -215,7 +215,7 @@ export const categories: Category[] = [
     id: "utensilios",
     title: "Utensílios para eventos",
     icon: "ConciergeBell",
-    image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&q=80&w=800",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqkNcMRu0NXPSQtdZB3YKdu5aOm8_alIeJesk0E44aq5zJGSZMWWEmOvqY&s=10",
     description: "Equipamentos profissionais e assessórios de serviço essenciais para buffets e cozinhas de eventos.",
     products: [
       {

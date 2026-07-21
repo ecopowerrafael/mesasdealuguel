@@ -57,14 +57,12 @@ export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) 
             className="flex items-center space-x-3 cursor-pointer group"
             id="header-logo-container"
           >
-            <div className={`relative w-10 h-10 rounded-sm overflow-hidden border flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:scale-105 ${
-              isScrolled ? "border-brand-gold/30 bg-brand-green" : "border-brand-gold bg-white"
-            }`}>
+            <div className="relative w-11 h-11 rounded-sm overflow-hidden border border-brand-gold bg-white flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
               <img
                 src="https://duqxk0v9olda1.cloudfront.net/messages/461392/6cca3916-68bd-4098-9c21-394aba239349/whatsapp-image-2026-02-19-at-17-48-27.jpeg"
                 alt="FestSul Logo"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-0.5"
                 id="header-logo-img"
               />
             </div>
