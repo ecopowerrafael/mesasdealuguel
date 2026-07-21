@@ -376,21 +376,25 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20" id="diferenciais-grid">
             {/* Diferencial 1 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="bg-white p-6 sm:p-8 rounded-sm border border-brand-gold/15 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
+              transition={{ duration: 0.6 }}
+              className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
               id="diferencial-1"
             >
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
+              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
+                01
+              </span>
               <div>
-                <div className="w-10 h-10 bg-brand-green/5 rounded-sm flex items-center justify-center text-brand-gold mb-6 border border-brand-gold/20">
-                  <ShieldCheck className="w-5 h-5 text-brand-gold" />
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                  <ShieldCheck className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-xs font-bold uppercase tracking-[0.1em] text-brand-green mb-3">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
                   Produtos higienizados
                 </h3>
-                <p className="text-[11px] text-gray-500 font-sans leading-relaxed font-light">
+                <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
                   Nossos materiais passam por rigoroso controle de lavagem, esterilização e são embalados individualmente, garantindo assepsia total.
                 </p>
               </div>
@@ -398,21 +402,25 @@ export default function App() {
 
             {/* Diferencial 2 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white p-6 sm:p-8 rounded-sm border border-brand-gold/15 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
               id="diferencial-2"
             >
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
+              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
+                02
+              </span>
               <div>
-                <div className="w-10 h-10 bg-brand-green/5 rounded-sm flex items-center justify-center text-brand-gold mb-6 border border-brand-gold/20">
-                  <Clock className="w-5 h-5 text-brand-gold" />
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                  <Clock className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-xs font-bold uppercase tracking-[0.1em] text-brand-green mb-3">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
                   Entrega pontual
                 </h3>
-                <p className="text-[11px] text-gray-500 font-sans leading-relaxed font-light">
+                <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
                   Sabemos o valor do tempo na montagem do seu evento. Cumprimos com absoluto rigor a escala de entrega e retirada agendada.
                 </p>
               </div>
@@ -420,21 +428,25 @@ export default function App() {
 
             {/* Diferencial 3 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white p-6 sm:p-8 rounded-sm border border-brand-gold/15 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
               id="diferencial-3"
             >
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
+              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
+                03
+              </span>
               <div>
-                <div className="w-10 h-10 bg-brand-green/5 rounded-sm flex items-center justify-center text-brand-gold mb-6 border border-brand-gold/20">
-                  <Zap className="w-5 h-5 text-brand-gold" />
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                  <Zap className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-xs font-bold uppercase tracking-[0.1em] text-brand-green mb-3">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
                   Atendimento rápido
                 </h3>
-                <p className="text-[11px] text-gray-500 font-sans leading-relaxed font-light">
+                <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
                   Equipe comercial de prontidão no WhatsApp para ajustar orçamentos, tirar dúvidas de layout de mesa e ajudar na sua tomada de decisão.
                 </p>
               </div>
@@ -442,21 +454,25 @@ export default function App() {
 
             {/* Diferencial 4 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white p-6 sm:p-8 rounded-sm border border-brand-gold/15 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
               id="diferencial-4"
             >
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
+              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
+                04
+              </span>
               <div>
-                <div className="w-10 h-10 bg-brand-green/5 rounded-sm flex items-center justify-center text-brand-gold mb-6 border border-brand-gold/20">
-                  <DollarSign className="w-5 h-5 text-brand-gold" />
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                  <DollarSign className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-xs font-bold uppercase tracking-[0.1em] text-brand-green mb-3">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
                   Excelente custo-benefício
                 </h3>
-                <p className="text-[11px] text-gray-500 font-sans leading-relaxed font-light">
+                <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
                   Materiais dignos dos melhores banquetes com preços altamente competitivos no mercado de locação da região.
                 </p>
               </div>
@@ -652,22 +668,21 @@ export default function App() {
           <div className="flex flex-col items-center text-center space-y-6">
             
             {/* Logo in footer */}
-            <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-              <div className="relative w-16 h-16 rounded-sm overflow-hidden border border-brand-gold bg-white flex items-center justify-center shadow-md hover:scale-105 transition-transform duration-300">
-                <img
-                  src="https://duqxk0v9olda1.cloudfront.net/messages/461392/6cca3916-68bd-4098-9c21-394aba239349/whatsapp-image-2026-02-19-at-17-48-27.jpeg"
-                  alt="FestSul Logo"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-contain p-1"
-                />
-              </div>
+            <div 
+              className="flex flex-col items-center justify-center cursor-pointer group"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <span className="font-display text-lg sm:text-xl font-bold tracking-[0.25em] text-brand-gold leading-none transition-transform duration-300 group-hover:scale-105">
+                FEST SUL
+              </span>
+              <div className="w-16 border-t border-brand-gold/60 my-1 transition-transform duration-300 group-hover:scale-x-110" />
+              <span className="text-[9px] sm:text-[10px] uppercase font-sans tracking-[0.3em] text-brand-gold font-medium leading-none">
+                Locações
+              </span>
             </div>
 
             <div>
-              <h3 className="font-display text-sm font-bold tracking-[0.2em] uppercase text-brand-gold">
-                FestSul Locações para Eventos
-              </h3>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-gray-400 font-sans mt-2">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-gray-400 font-sans">
                 Porto Alegre – RS
               </p>
             </div>

@@ -54,30 +54,16 @@ export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) 
           {/* Logo Section */}
           <div 
             onClick={() => scrollToSection("hero")} 
-            className="flex items-center space-x-3 cursor-pointer group"
+            className="flex flex-col items-center justify-center cursor-pointer group"
             id="header-logo-container"
           >
-            <div className="relative w-11 h-11 rounded-sm overflow-hidden border border-brand-gold bg-white flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
-              <img
-                src="https://duqxk0v9olda1.cloudfront.net/messages/461392/6cca3916-68bd-4098-9c21-394aba239349/whatsapp-image-2026-02-19-at-17-48-27.jpeg"
-                alt="FestSul Logo"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-contain p-0.5"
-                id="header-logo-img"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className={`font-display text-sm sm:text-base font-bold tracking-[0.2em] leading-none transition-colors duration-300 ${
-                isScrolled ? "text-brand-green" : "text-white"
-              }`}>
-                FESTSUL
-              </span>
-              <span className={`text-[9px] uppercase font-sans tracking-[0.25em] mt-0.5 transition-colors duration-300 ${
-                isScrolled ? "text-brand-green/80 font-semibold" : "text-brand-gold"
-              }`}>
-                Locações para Eventos
-              </span>
-            </div>
+            <span className="font-display text-lg sm:text-xl font-bold tracking-[0.25em] text-brand-gold leading-none transition-transform duration-300 group-hover:scale-105">
+              FEST SUL
+            </span>
+            <div className="w-16 border-t border-brand-gold/60 my-1 transition-transform duration-300 group-hover:scale-x-110" />
+            <span className="text-[9px] sm:text-[10px] uppercase font-sans tracking-[0.3em] text-brand-gold font-medium leading-none">
+              Locações
+            </span>
           </div>
 
           {/* Desktop Navigation */}
