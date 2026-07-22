@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://festsullocacoes.com.br/sitemap.xml
+Sitemap: https://festsullocacoes.com.br/sitemap-images.xml

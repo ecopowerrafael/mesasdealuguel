@@ -1,0 +1,17 @@
+{
+  "short_name": "Fest Sul",
+  "name": "Fest Sul - Aluguel de Louças, Taças e Cadeiras em Porto Alegre",
+  "description": "Locação de materiais finos para eventos, casamentos, banquetes e formaturas na Região Metropolitana de Porto Alegre e Serra Gaúcha.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512 192x192 32x32"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F7F7F5",
+  "theme_color": "#12382C",
+  "display": "standalone",
+  "orientation": "portrait"
+}

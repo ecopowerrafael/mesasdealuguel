@@ -5,9 +5,10 @@ import { BudgetItem } from "../types";
 interface HeaderProps {
   budgetItemsCount: number;
   onOpenBudget: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) {
+export default function Header({ budgetItemsCount, onOpenBudget, onNavigate }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,11 +24,39 @@ export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNav = (path: string) => {
+    setIsMobileMenuOpen(false);
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      window.history.pushState({}, "", path);
+      window.dispatchEvent(new Event("popstate"));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
+    if (window.location.pathname !== "/") {
+      handleNav("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const offset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // height of the header
+      const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       window.scrollTo({
@@ -69,7 +98,7 @@ export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8 text-[11px] uppercase tracking-[0.15em] font-semibold" id="desktop-nav-menu">
             <button
-              onClick={() => scrollToSection("hero")}
+              onClick={() => handleNav("/")}
               className={`transition-colors duration-200 cursor-pointer ${
                 isScrolled ? "text-brand-green/80 hover:text-brand-gold-dark" : "text-gray-200 hover:text-brand-gold"
               }`}
@@ -83,6 +112,14 @@ export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) 
               }`}
             >
               O que Alugamos
+            </button>
+            <button
+              onClick={() => handleNav("/blog")}
+              className={`transition-colors duration-200 cursor-pointer ${
+                isScrolled ? "text-brand-green/80 hover:text-brand-gold-dark" : "text-gray-200 hover:text-brand-gold"
+              }`}
+            >
+              Blog & Guia
             </button>
             <button
               onClick={() => scrollToSection("por-que-escolher")}
@@ -174,6 +211,12 @@ export default function Header({ budgetItemsCount, onOpenBudget }: HeaderProps) 
               className="block w-full text-left px-3 py-2 rounded-sm text-xs font-semibold uppercase tracking-wider text-gray-200 hover:bg-brand-green hover:text-brand-gold transition-all duration-200"
             >
               O que Alugamos
+            </button>
+            <button
+              onClick={() => handleNav("/blog")}
+              className="block w-full text-left px-3 py-2 rounded-sm text-xs font-semibold uppercase tracking-wider text-gray-200 hover:bg-brand-green hover:text-brand-gold transition-all duration-200"
+            >
+              Blog & Guia
             </button>
             <button
               onClick={() => scrollToSection("por-que-escolher")}

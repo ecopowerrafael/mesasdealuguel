@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import {
   Sparkles,
-  CheckCircle2,
   Zap,
   Clock,
   DollarSign,
@@ -22,15 +21,22 @@ import {
   ConciergeBell,
   MessageSquare,
   BookmarkCheck,
-  Heart,
   Star
 } from "lucide-react";
 
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import BudgetDrawer from "./components/BudgetDrawer";
 import CategoryDetailModal from "./components/CategoryDetailModal";
+import CategoryPage from "./components/CategoryPage";
+import ProductPage from "./components/ProductPage";
+import BlogPage from "./components/BlogPage";
+import BlogPostPage from "./components/BlogPostPage";
+import NotFoundPage from "./components/NotFoundPage";
+import SEOHead from "./components/SEOHead";
 import { categories } from "./data/catalog";
-import { Category, Product, BudgetItem } from "./types";
+import { blogPosts } from "./data/blog";
+import { Category, Product, BudgetItem, BlogPost } from "./types";
 
 export default function App() {
   // Budget Bag State
@@ -40,6 +46,18 @@ export default function App() {
   // Category Modal State
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+
+  // Path Routing State
+  const [currentPath, setCurrentPath] = useState<string>(window.location.pathname);
+
+  // Listen to PopState for back/forward browser navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // Load budget state from localStorage if available
   useEffect(() => {
@@ -66,7 +84,6 @@ export default function App() {
   // Budget Operations
   const handleAddProduct = (product: Product, categoryTitle: string, quantity: number) => {
     if (quantity <= 0) {
-      // Remove if quantity set to 0
       const filtered = budgetItems.filter((item) => item.product.id !== product.id);
       saveBudget(filtered);
     } else {
@@ -107,9 +124,15 @@ export default function App() {
     }
   };
 
+  // Navigation Helper
+  const navigate = (path: string) => {
+    window.history.pushState({}, "", path);
+    setCurrentPath(path);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleOpenCategory = (category: Category) => {
-    setSelectedCategory(category);
-    setIsCategoryModalOpen(true);
+    navigate(`/${category.slug}`);
   };
 
   // Helper for rendering dynamic lucide icons
@@ -139,24 +162,219 @@ export default function App() {
   const generalWhatsappUrl = `https://wa.me/${whatsappNumber}?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20para%20meu%20evento%20com%20a%20FestSul.`;
 
   const scrollToSection = (id: string) => {
+    if (currentPath !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // height of the header
+      const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
   };
 
+  const normalizedPath = (currentPath.replace(/\/$/, "") || "/").toLowerCase();
+  const rawSlug = normalizedPath.replace(/^\//, "");
+
+  // Routing Determination - Category Search
+  const isCategoryRoute = categories.find((c) => {
+    const slugMatch = `/${c.slug}`.toLowerCase() === normalizedPath;
+    const aliasMatch = c.aliases?.some((a) => a.toLowerCase() === rawSlug);
+    return slugMatch || aliasMatch;
+  });
+
+  // Routing Determination - Product Search
+  let productMatch: Product | null = null;
+  let categoryForProductMatch: Category | null = null;
+
+  const isExplicitProductPath = normalizedPath.startsWith("/produto/");
+  const searchProductSlug = isExplicitProductPath ? normalizedPath.replace("/produto/", "") : rawSlug;
+
+  for (const cat of categories) {
+    const p = cat.products.find((prod) => {
+      const mainMatch = prod.slug.toLowerCase() === searchProductSlug;
+      const aliasMatch = prod.aliases?.some((a) => a.toLowerCase() === searchProductSlug);
+      return mainMatch || aliasMatch;
+    });
+
+    if (p) {
+      productMatch = p;
+      categoryForProductMatch = cat;
+      break;
+    }
+  }
+
+  const isProductRoute = isExplicitProductPath || (productMatch !== null && !isCategoryRoute);
+
+  const isBlogRoute = normalizedPath === "/blog";
+  const isBlogPostRoute = normalizedPath.startsWith("/blog/");
+  let blogPostMatch: BlogPost | null = null;
+  if (isBlogPostRoute) {
+    const postSlug = normalizedPath.replace("/blog/", "");
+    blogPostMatch = blogPosts.find((post) => post.slug.toLowerCase() === postSlug) || null;
+  }
+
+  // Render Category Route View
+  if (isCategoryRoute) {
+    return (
+      <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+        <SEOHead category={isCategoryRoute} currentPath={currentPath} isBudgetOpen={isBudgetOpen} />
+        <Header
+          budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <CategoryPage
+          category={isCategoryRoute}
+          onAddToBudget={handleAddProduct}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <BudgetDrawer
+          isOpen={isBudgetOpen}
+          onClose={() => setIsBudgetOpen(false)}
+          items={budgetItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onClearBudget={handleClearBudget}
+        />
+      </div>
+    );
+  }
+
+  // Render Product Route View
+  if (isProductRoute) {
+    if (!productMatch || !categoryForProductMatch) {
+      return (
+        <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+          <Header
+            budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+            onOpenBudget={() => setIsBudgetOpen(true)}
+            onNavigate={navigate}
+          />
+          <NotFoundPage onNavigate={navigate} />
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+        <SEOHead product={productMatch} category={categoryForProductMatch} currentPath={currentPath} isBudgetOpen={isBudgetOpen} />
+        <Header
+          budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <ProductPage
+          product={productMatch}
+          category={categoryForProductMatch}
+          onAddToBudget={handleAddProduct}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <BudgetDrawer
+          isOpen={isBudgetOpen}
+          onClose={() => setIsBudgetOpen(false)}
+          items={budgetItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onClearBudget={handleClearBudget}
+        />
+      </div>
+    );
+  }
+
+  // Render Blog Index View
+  if (isBlogRoute) {
+    return (
+      <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+        <SEOHead currentPath={currentPath} isBudgetOpen={isBudgetOpen} />
+        <Header
+          budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <BlogPage posts={blogPosts} onNavigate={navigate} />
+        <BudgetDrawer
+          isOpen={isBudgetOpen}
+          onClose={() => setIsBudgetOpen(false)}
+          items={budgetItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onClearBudget={handleClearBudget}
+        />
+      </div>
+    );
+  }
+
+  // Render Blog Article View
+  if (isBlogPostRoute) {
+    if (!blogPostMatch) {
+      return (
+        <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+          <Header
+            budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+            onOpenBudget={() => setIsBudgetOpen(true)}
+            onNavigate={navigate}
+          />
+          <NotFoundPage onNavigate={navigate} />
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+        <SEOHead post={blogPostMatch} currentPath={currentPath} isBudgetOpen={isBudgetOpen} />
+        <Header
+          budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <BlogPostPage post={blogPostMatch} onNavigate={navigate} onOpenBudget={() => setIsBudgetOpen(true)} />
+        <BudgetDrawer
+          isOpen={isBudgetOpen}
+          onClose={() => setIsBudgetOpen(false)}
+          items={budgetItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onClearBudget={handleClearBudget}
+        />
+      </div>
+    );
+  }
+
+  // Render 404 for unknown URLs
+  if (normalizedPath !== "/") {
+    return (
+      <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+        <Header
+          budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <NotFoundPage onNavigate={navigate} />
+      </div>
+    );
+  }
+
+  // DEFAULT RENDER: HOME PAGE "/"
   return (
     <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green overflow-x-hidden" id="app-root-container">
+      {/* Dynamic SEO Meta & Structured Data */}
+      <SEOHead category={selectedCategory} isBudgetOpen={isBudgetOpen} />
+
       {/* Header / Navbar */}
       <Header
         budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
         onOpenBudget={() => setIsBudgetOpen(true)}
+        onNavigate={navigate}
       />
 
       {/* SECTION 1 - HERO */}
@@ -277,7 +495,6 @@ export default function App() {
           {/* Catalog Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="catalog-cards-grid">
             {categories.map((category, index) => {
-              // Count selected items in this category
               const selectedInCat = budgetItems.filter((item) => item.categoryTitle === category.title);
               const totalQtyInCat = selectedInCat.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -294,7 +511,7 @@ export default function App() {
                   <div className="relative h-48 w-full overflow-hidden">
                     <img
                       src={category.image}
-                      alt={category.title}
+                      alt={category.imageAlt || category.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-95"
                       referrerPolicy="no-referrer"
                     />
@@ -328,7 +545,7 @@ export default function App() {
                       onClick={() => handleOpenCategory(category)}
                       className="w-full bg-white group-hover:bg-brand-green text-brand-green group-hover:text-white border border-brand-gold/25 group-hover:border-brand-green font-bold text-[10px] tracking-widest uppercase py-3 rounded-sm flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
                     >
-                      <span>Explorar e Adicionar</span>
+                      <span>Ver Página da Categoria</span>
                       <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                     </button>
                   </div>
@@ -374,24 +591,19 @@ export default function App() {
 
           {/* Grid: 4 Diferenciais */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20" id="diferenciais-grid">
-            {/* Diferencial 1 */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
-              id="diferencial-1"
             >
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
-              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
-                01
-              </span>
               <div>
-                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green transition-all duration-300">
                   <ShieldCheck className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors">
                   Produtos higienizados
                 </h3>
                 <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
@@ -400,24 +612,19 @@ export default function App() {
               </div>
             </motion.div>
 
-            {/* Diferencial 2 */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
-              id="diferencial-2"
             >
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
-              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
-                02
-              </span>
               <div>
-                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green transition-all duration-300">
                   <Clock className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors">
                   Entrega pontual
                 </h3>
                 <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
@@ -426,24 +633,19 @@ export default function App() {
               </div>
             </motion.div>
 
-            {/* Diferencial 3 */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
-              id="diferencial-3"
             >
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
-              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
-                03
-              </span>
               <div>
-                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green transition-all duration-300">
                   <Zap className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors">
                   Atendimento rápido
                 </h3>
                 <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
@@ -452,24 +654,19 @@ export default function App() {
               </div>
             </motion.div>
 
-            {/* Diferencial 4 */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="group relative overflow-hidden bg-white p-8 rounded-sm border border-brand-gold/15 shadow-[0_4px_20px_-4px_rgba(197,160,89,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(197,160,89,0.12)] hover:border-brand-gold/45 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-full"
-              id="diferencial-4"
             >
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-brand-gold/10 group-hover:bg-brand-gold transition-colors duration-500" />
-              <span className="absolute top-4 right-6 font-display text-4xl font-extralight text-brand-gold/10 group-hover:text-brand-gold/25 select-none transition-colors duration-500">
-                04
-              </span>
               <div>
-                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green group-hover:border-brand-green transition-all duration-300">
+                <div className="w-12 h-12 bg-brand-green/5 rounded-sm flex items-center justify-center border border-brand-gold/20 mb-6 group-hover:bg-brand-green transition-all duration-300">
                   <DollarSign className="w-5 h-5 text-brand-gold group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors duration-300">
+                <h3 className="font-display text-[13px] sm:text-sm font-bold uppercase tracking-[0.15em] text-brand-green mb-3 group-hover:text-brand-gold transition-colors">
                   Excelente custo-benefício
                 </h3>
                 <p className="text-[12px] text-gray-600 font-sans leading-relaxed font-light">
@@ -484,7 +681,6 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-br from-brand-dark to-brand-green opacity-40 z-0" />
             
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-10 divide-y lg:divide-y-0 lg:divide-x divide-brand-gold/20">
-              {/* Highlight 1 */}
               <div className="flex items-start gap-4 pt-6 lg:pt-0 lg:px-6 first:pt-0">
                 <div className="bg-brand-gold/10 p-3 rounded-sm border border-brand-gold/20 text-brand-gold flex-shrink-0">
                   <MapPin className="w-5 h-5" />
@@ -499,7 +695,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Highlight 2 */}
               <div className="flex items-start gap-4 pt-6 lg:pt-0 lg:px-6">
                 <div className="bg-brand-gold/10 p-3 rounded-sm border border-brand-gold/20 text-brand-gold flex-shrink-0">
                   <Sparkles className="w-5 h-5" />
@@ -514,7 +709,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Highlight 3 */}
               <div className="flex items-start gap-4 pt-6 lg:pt-0 lg:px-6">
                 <div className="bg-brand-gold/10 p-3 rounded-sm border border-brand-gold/20 text-brand-gold flex-shrink-0">
                   <MessageSquare className="w-5 h-5" />
@@ -531,7 +725,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Social Proof / Trust Banner */}
           <div className="mt-16 flex flex-wrap justify-center items-center gap-y-4 gap-x-8 text-center text-gray-500 text-xs font-sans">
             <span className="flex items-center gap-1"><Check className="w-4 h-4 text-brand-gold" /> Casamentos de Alto Padrão</span>
             <span className="flex items-center gap-1"><Check className="w-4 h-4 text-brand-gold" /> Formaturas Marcantes</span>
@@ -549,7 +742,6 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-center">
             
-            {/* Info and contact details (left column) */}
             <div className="lg:col-span-7 space-y-8">
               <div>
                 <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-brand-gold font-bold">
@@ -563,10 +755,7 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Specific Contact Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4" id="contact-info-cards">
-                
-                {/* Whatsapp Card */}
                 <div className="bg-brand-dark/40 border border-brand-gold/15 p-5 sm:p-6 rounded-sm">
                   <div className="w-10 h-10 bg-brand-gold/5 border border-brand-gold/20 rounded-sm flex items-center justify-center mb-4">
                     <Phone className="w-4 h-4 text-brand-gold" />
@@ -587,7 +776,6 @@ export default function App() {
                   </p>
                 </div>
 
-                {/* Instagram Card */}
                 <div className="bg-brand-dark/40 border border-brand-gold/15 p-5 sm:p-6 rounded-sm">
                   <div className="w-10 h-10 bg-brand-gold/5 border border-brand-gold/20 rounded-sm flex items-center justify-center mb-4">
                     <Instagram className="w-4 h-4 text-brand-gold" />
@@ -607,10 +795,8 @@ export default function App() {
                     Acompanhe inspirações de mesas postas reais
                   </p>
                 </div>
-
               </div>
 
-              {/* Geographic detail */}
               <div className="flex items-center gap-3 bg-brand-dark/35 p-4 rounded-sm border border-brand-gold/15 inline-flex">
                 <MapPin className="w-4 h-4 text-brand-gold shrink-0" />
                 <span className="text-[11px] text-gray-300 font-sans uppercase tracking-wider">
@@ -619,7 +805,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Button callouts (right column) */}
             <div className="lg:col-span-5 bg-brand-dark/50 border border-brand-gold/20 rounded-sm p-8 space-y-6 flex flex-col justify-center relative after:absolute after:inset-1 after:border after:border-brand-gold/10 after:pointer-events-none" id="contact-action-panel">
               <h3 className="font-display text-xs font-bold uppercase tracking-[0.2em] text-brand-gold text-center">
                 Como deseja prosseguir?
@@ -663,67 +848,7 @@ export default function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-brand-dark text-white border-t border-brand-gold/20 py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="flex flex-col items-center text-center space-y-6">
-            
-            {/* Logo in footer */}
-            <div 
-              className="flex flex-col items-center justify-center cursor-pointer group"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              <span className="font-display text-lg sm:text-xl font-bold tracking-[0.25em] text-brand-gold leading-none transition-transform duration-300 group-hover:scale-105">
-                FEST SUL
-              </span>
-              <div className="w-16 border-t border-brand-gold/60 my-1 transition-transform duration-300 group-hover:scale-x-110" />
-              <span className="text-[9px] sm:text-[10px] uppercase font-sans tracking-[0.3em] text-brand-gold font-medium leading-none">
-                Locações
-              </span>
-            </div>
-
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-gray-400 font-sans">
-                Porto Alegre – RS
-              </p>
-            </div>
-
-            {/* Menu Links in Footer */}
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 pt-6 border-t border-brand-gold/10 w-full max-w-md text-[10px] uppercase tracking-[0.15em] font-semibold">
-              <button
-                onClick={() => scrollToSection("hero")}
-                className="font-sans text-gray-400 hover:text-brand-gold transition-colors duration-200 cursor-pointer"
-              >
-                Início
-              </button>
-              <button
-                onClick={() => scrollToSection("o-que-alugamos")}
-                className="font-sans text-gray-400 hover:text-brand-gold transition-colors duration-200 cursor-pointer"
-              >
-                O que Alugamos
-              </button>
-              <button
-                onClick={() => scrollToSection("por-que-escolher")}
-                className="font-sans text-gray-400 hover:text-brand-gold transition-colors duration-200 cursor-pointer"
-              >
-                Diferenciais
-              </button>
-              <button
-                onClick={() => scrollToSection("contato")}
-                className="font-sans text-gray-400 hover:text-brand-gold transition-colors duration-200 cursor-pointer"
-              >
-                Contato
-              </button>
-            </div>
-
-            {/* Copyright */}
-            <div className="pt-8 text-center text-[10px] text-gray-500 font-sans tracking-wide">
-              <p>© {new Date().getFullYear()} FestSul Locações para Eventos. Todos os direitos reservados.</p>
-              <p className="mt-2 text-gray-600 uppercase tracking-widest text-[8px]">Elegância e pontualidade no aluguel de materiais para festas de luxo.</p>
-            </div>
-
-          </div>
-        </div>
-      </footer>
+      <Footer onNavigate={navigate} />
 
       {/* FLOATING ACTION PILL FOR CART IN LOWER RIGHT */}
       {budgetItems.length > 0 && !isBudgetOpen && (
@@ -747,7 +872,6 @@ export default function App() {
         </motion.button>
       )}
 
-      {/* BUDGET DRAWER SIDE PANEL */}
       <BudgetDrawer
         isOpen={isBudgetOpen}
         onClose={() => setIsBudgetOpen(false)}
@@ -757,7 +881,6 @@ export default function App() {
         onClearBudget={handleClearBudget}
       />
 
-      {/* CATEGORY EXPLORATION MODAL */}
       <CategoryDetailModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
