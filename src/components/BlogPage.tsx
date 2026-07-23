@@ -3,7 +3,7 @@ import { BlogPost } from "../types";
 import Breadcrumbs from "./Breadcrumbs";
 import InternalLinks from "./InternalLinks";
 import Footer from "./Footer";
-import { Search, Calendar, Clock, User, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Calendar, Clock, User, Sparkles, ArrowRight, Phone } from "lucide-react";
 
 interface BlogPageProps {
   posts: BlogPost[];
@@ -96,6 +96,7 @@ export default function BlogPage({ posts, onNavigate }: BlogPageProps) {
                     width={800}
                     height={500}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
                   />
                   <span className="absolute top-4 left-4 bg-brand-green/90 text-brand-gold text-[10px] font-display uppercase tracking-widest px-3 py-1">
                     {post.category}
@@ -135,6 +136,33 @@ export default function BlogPage({ posts, onNavigate }: BlogPageProps) {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Bottom CTA Banner */}
+        <div className="mb-12 p-8 sm:p-10 bg-brand-green text-white rounded-sm border border-brand-gold/30 text-center shadow-sm">
+          <h3 className="font-display text-xl font-bold mb-2">
+            Pronto para planejar seu evento com a Fest Sul?
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-200 font-sans mb-6 max-w-xl mx-auto font-light leading-relaxed">
+            Fale com nossa equipe no WhatsApp para orçar seu evento ou explore nosso catálogo de locação de louças, taças e móveis.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="https://wa.me/5551989879933?text=Olá!%20Li%20o%20blog%20da%20Fest%20Sul%20e%20gostaria%20de%20solicitar%20um%20orçamento%20de%20locação."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-display text-xs font-bold uppercase tracking-widest transition-colors inline-flex items-center justify-center gap-2 shadow-sm"
+            >
+              <Phone className="w-4 h-4 text-white" />
+              <span>Solicitar Orçamento no WhatsApp</span>
+            </a>
+            <button
+              onClick={() => onNavigate("/")}
+              className="py-3.5 px-6 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-display text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
+            >
+              Ver Todos os Itens Disponíveis para Locação
+            </button>
+          </div>
         </div>
       </main>
 

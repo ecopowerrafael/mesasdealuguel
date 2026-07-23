@@ -4,7 +4,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import InternalLinks from "./InternalLinks";
 import Footer from "./Footer";
 import FAQAccordion from "./FAQAccordion";
-import { Check, ArrowRight, ShieldCheck, Clock, Sparkles } from "lucide-react";
+import { Check, ArrowRight, ShieldCheck, Clock, Sparkles, Phone } from "lucide-react";
 
 interface CategoryPageProps {
   category: Category;
@@ -46,6 +46,10 @@ export default function CategoryPage({
       url: `https://festsullocacoes.com.br/produto/${prod.slug}`,
     })),
   };
+
+  const whatsappCategoryUrl = `https://wa.me/5551989879933?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20para%20aluguel%20de%20${encodeURIComponent(
+    category.title
+  )}%20em%20Porto%20Alegre.`;
 
   return (
     <div className="bg-[#F7F7F5] min-h-screen pt-20">
@@ -90,6 +94,25 @@ export default function CategoryPage({
                 Entrega Pontual em Porto Alegre & Região
               </span>
             </div>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3 mt-6">
+              <a
+                href={whatsappCategoryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-display text-xs font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-2 shadow-sm"
+              >
+                <Phone className="w-4 h-4 text-white" />
+                <span>Solicitar Orçamento no WhatsApp</span>
+              </a>
+              <button
+                onClick={() => onNavigate("/")}
+                className="py-3 px-5 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-display text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                <span>Ver Todos os Itens Disponíveis para Locação</span>
+              </button>
+            </div>
           </div>
 
           <div className="w-full md:w-80 h-48 rounded-sm overflow-hidden border border-brand-gold/40 shadow-lg">
@@ -100,6 +123,7 @@ export default function CategoryPage({
               height={400}
               loading="eager"
               className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
             />
           </div>
         </div>
@@ -116,70 +140,90 @@ export default function CategoryPage({
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {category.products.map((product) => (
-            <article
-              key={product.id}
-              className="bg-white rounded-sm border border-brand-gold/15 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
-            >
-              <div>
-                <div
-                  onClick={() => onNavigate(`/produto/${product.slug}`)}
-                  className="relative h-56 bg-gray-50 overflow-hidden cursor-pointer flex items-center justify-center p-4 border-b border-gray-100"
-                >
-                  <img
-                    src={product.image}
-                    alt={product.imageAlt || product.name}
-                    loading="lazy"
-                    width={product.imageWidth || 400}
-                    height={product.imageHeight || 400}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute bottom-3 left-3 bg-brand-green/90 text-brand-gold text-[10px] font-display uppercase tracking-widest px-2.5 py-1">
-                    Higienizado & Embalado
-                  </span>
-                </div>
+          {category.products.map((product) => {
+            const productWhatsappUrl = `https://wa.me/5551989879933?text=Olá!%20Gostaria%20de%20um%20orçamento%20de%20aluguel%20para%20${encodeURIComponent(
+              product.name
+            )}%20em%20Porto%20Alegre.`;
 
-                <div className="p-6">
-                  <h3
+            return (
+              <article
+                key={product.id}
+                className="bg-white rounded-sm border border-brand-gold/15 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              >
+                <div>
+                  <div
                     onClick={() => onNavigate(`/produto/${product.slug}`)}
-                    className="font-display text-sm font-bold text-brand-green group-hover:text-brand-gold transition-colors cursor-pointer mb-2"
+                    className="relative h-56 bg-gray-50 overflow-hidden cursor-pointer flex items-center justify-center p-4 border-b border-gray-100"
                   >
-                    {product.name}
-                  </h3>
-                  <p className="text-xs text-gray-600 font-sans leading-relaxed line-clamp-3 mb-4">
-                    {product.description}
-                  </p>
+                    <img
+                      src={product.image}
+                      alt={product.imageAlt || product.name}
+                      loading="lazy"
+                      width={product.imageWidth || 400}
+                      height={product.imageHeight || 400}
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-brand-green/90 text-brand-gold text-[10px] font-display uppercase tracking-widest px-2.5 py-1">
+                      Higienizado & Embalado
+                    </span>
+                  </div>
 
-                  {product.material && (
-                    <p className="text-[11px] text-gray-500 font-sans mb-1">
-                      <strong className="text-gray-700">Material:</strong> {product.material}
+                  <div className="p-6">
+                    <h3
+                      onClick={() => onNavigate(`/produto/${product.slug}`)}
+                      className="font-display text-sm font-bold text-brand-green group-hover:text-brand-gold transition-colors cursor-pointer mb-2"
+                    >
+                      {product.name}
+                    </h3>
+                    <p className="text-xs text-gray-600 font-sans leading-relaxed line-clamp-3 mb-4">
+                      {product.description}
                     </p>
-                  )}
-                  {product.dimensions && (
-                    <p className="text-[11px] text-gray-500 font-sans mb-4">
-                      <strong className="text-gray-700">Dimensão / Cap.:</strong> {product.dimensions}
-                    </p>
-                  )}
+
+                    {product.material && (
+                      <p className="text-[11px] text-gray-500 font-sans mb-1">
+                        <strong className="text-gray-700">Material:</strong> {product.material}
+                      </p>
+                    )}
+                    {product.dimensions && (
+                      <p className="text-[11px] text-gray-500 font-sans mb-4">
+                        <strong className="text-gray-700">Dimensão / Cap.:</strong> {product.dimensions}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-6 pt-0 flex gap-2">
-                <button
-                  onClick={() => onAddToBudget(product, category.title, 50)}
-                  className="flex-1 py-2.5 px-4 bg-brand-green hover:bg-brand-dark text-white font-display text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
-                >
-                  Adicionar (50un)
-                </button>
-                <button
-                  onClick={() => onNavigate(`/produto/${product.slug}`)}
-                  className="py-2.5 px-3 border border-brand-gold text-brand-green hover:bg-brand-gold/10 font-sans text-xs transition-colors flex items-center justify-center cursor-pointer"
-                  title="Ver Detalhes do Produto"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </article>
-          ))}
+                <div className="p-6 pt-0 flex flex-col gap-2">
+                  <a
+                    href={productWhatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-display text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-white" />
+                    <span>Solicitar no WhatsApp</span>
+                  </a>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => onNavigate(`/produto/${product.slug}`)}
+                      className="flex-1 py-2 px-3 border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-display text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      <span>Ver Detalhes do Item</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => onAddToBudget(product, category.title, 50)}
+                      className="py-2 px-3 border border-brand-gold text-brand-green hover:bg-brand-gold/10 font-sans text-[10px] font-semibold transition-colors cursor-pointer"
+                      title="Adicionar ao Carrinho de Orçamento"
+                    >
+                      + Carrinho
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {/* Deep SEO Text Content */}
@@ -217,13 +261,42 @@ export default function CategoryPage({
 
         {/* FAQs Component */}
         {seo?.faq && seo.faq.length > 0 && (
-          <FAQAccordion
-            items={seo.faq}
-            title={`Dúvidas Frequentes sobre Aluguel de ${category.title}`}
-            subtitle="Confira abaixo as respostas para as principais questões sobre prazos, entrega e higienização das peças."
-            showSearch={false}
-          />
+          <div className="mb-12">
+            <FAQAccordion
+              items={seo.faq}
+              title={`Dúvidas Frequentes sobre Aluguel de ${category.title}`}
+              subtitle="Confira abaixo as respostas para as principais questões sobre prazos, entrega e higienização das peças."
+              showSearch={false}
+            />
+          </div>
         )}
+
+        {/* Bottom CTA Banner */}
+        <div className="mb-12 p-8 sm:p-10 bg-brand-green text-white rounded-sm border border-brand-gold/30 text-center shadow-sm">
+          <h3 className="font-display text-xl font-bold mb-2">
+            Precisa de um orçamento completo para {category.title} em Porto Alegre?
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-200 font-sans mb-6 max-w-xl mx-auto font-light leading-relaxed">
+            Fale diretamente com nossa equipe via WhatsApp para receber atendimento rápido ou consulte todos os itens do nosso catálogo.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href={whatsappCategoryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-display text-xs font-bold uppercase tracking-widest transition-colors inline-flex items-center justify-center gap-2 shadow-sm"
+            >
+              <Phone className="w-4 h-4 text-white" />
+              <span>Solicitar Orçamento no WhatsApp</span>
+            </a>
+            <button
+              onClick={() => onNavigate("/")}
+              className="py-3.5 px-6 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-display text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
+            >
+              Ver Todos os Itens Disponíveis para Locação
+            </button>
+          </div>
+        </div>
       </main>
 
       <InternalLinks onNavigate={onNavigate} />

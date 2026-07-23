@@ -21,7 +21,8 @@ import {
   ConciergeBell,
   MessageSquare,
   BookmarkCheck,
-  Star
+  Star,
+  CreditCard
 } from "lucide-react";
 
 import Header from "./components/Header";
@@ -32,10 +33,12 @@ import CategoryPage from "./components/CategoryPage";
 import ProductPage from "./components/ProductPage";
 import BlogPage from "./components/BlogPage";
 import BlogPostPage from "./components/BlogPostPage";
+import SeoLandingPage from "./components/SeoLandingPage";
 import NotFoundPage from "./components/NotFoundPage";
 import SEOHead from "./components/SEOHead";
 import { categories } from "./data/catalog";
 import { blogPosts } from "./data/blog";
+import { seoLandingPages } from "./data/seoPages";
 import { Category, Product, BudgetItem, BlogPost } from "./types";
 
 export default function App() {
@@ -219,6 +222,39 @@ export default function App() {
   if (isBlogPostRoute) {
     const postSlug = normalizedPath.replace("/blog/", "");
     blogPostMatch = blogPosts.find((post) => post.slug.toLowerCase() === postSlug) || null;
+  }
+
+  // Routing Determination - SEO Landing Pages
+  const seoPageMatch = seoLandingPages.find(
+    (p) => `/${p.slug}`.toLowerCase() === normalizedPath
+  );
+
+  // Render SEO Landing Page Route View
+  if (seoPageMatch) {
+    return (
+      <div className="bg-[#F7F7F5] min-h-screen font-sans text-brand-green">
+        <SEOHead seoPage={seoPageMatch} currentPath={currentPath} isBudgetOpen={isBudgetOpen} />
+        <Header
+          budgetItemsCount={budgetItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <SeoLandingPage
+          page={seoPageMatch}
+          onAddToBudget={handleAddProduct}
+          onOpenBudget={() => setIsBudgetOpen(true)}
+          onNavigate={navigate}
+        />
+        <BudgetDrawer
+          isOpen={isBudgetOpen}
+          onClose={() => setIsBudgetOpen(false)}
+          items={budgetItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onClearBudget={handleClearBudget}
+        />
+      </div>
+    );
   }
 
   // Render Category Route View
@@ -508,7 +544,10 @@ export default function App() {
                   className="group bg-[#F7F7F5] rounded-sm overflow-hidden border border-brand-gold/10 shadow-xs hover:shadow-md hover:border-brand-gold/30 transition-all duration-300 flex flex-col justify-between"
                   id={`card-cat-${category.id}`}
                 >
-                  <div className="relative h-48 w-full overflow-hidden">
+                  <div 
+                    className="relative h-48 w-full overflow-hidden cursor-pointer"
+                    onClick={() => handleOpenCategory(category)}
+                  >
                     <img
                       src={category.image}
                       alt={category.imageAlt || category.title}
@@ -533,7 +572,10 @@ export default function App() {
 
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-display text-sm font-bold text-brand-green tracking-[0.1em] uppercase mb-2 group-hover:text-brand-gold-dark transition-colors duration-200">
+                      <h3 
+                        onClick={() => handleOpenCategory(category)}
+                        className="font-display text-sm font-bold text-brand-green tracking-[0.1em] uppercase mb-2 group-hover:text-brand-gold-dark transition-colors duration-200 cursor-pointer"
+                      >
                         {category.title}
                       </h3>
                       <p className="text-[11px] text-gray-500 font-sans leading-relaxed mb-6 font-light">
@@ -541,13 +583,27 @@ export default function App() {
                       </p>
                     </div>
 
-                    <button
-                      onClick={() => handleOpenCategory(category)}
-                      className="w-full bg-white group-hover:bg-brand-green text-brand-green group-hover:text-white border border-brand-gold/25 group-hover:border-brand-green font-bold text-[10px] tracking-widest uppercase py-3 rounded-sm flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
-                    >
-                      <span>Ver Página da Categoria</span>
-                      <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-                    </button>
+                    <div className="flex flex-col gap-2">
+                      <a
+                        href={`https://wa.me/5551989879933?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20para%20aluguel%20de%20${encodeURIComponent(category.title)}%20em%20Porto%20Alegre.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] tracking-wider uppercase py-3 rounded-sm flex items-center justify-center gap-2 transition-all duration-300 shadow-xs cursor-pointer"
+                      >
+                        <Phone className="w-3.5 h-3.5 text-white" />
+                        <span>Solicitar no WhatsApp</span>
+                      </a>
+
+                      <a
+                        href={`https://wa.me/5551989879933?text=Olá!%20Gostaria%20de%20receber%20o%20catálogo%20completo%20de%20${encodeURIComponent(category.title)}%20para%20locação%20em%20Porto%20Alegre.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full border border-brand-gold text-brand-green hover:bg-brand-gold hover:text-brand-green font-bold text-[10px] tracking-wider uppercase py-2.5 rounded-sm flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
+                      >
+                        <span>Ver Catálogo Completo</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-brand-gold" />
+                      </a>
+                    </div>
                   </div>
                 </motion.div>
               );
@@ -557,15 +613,28 @@ export default function App() {
           {/* Call to action at bottom of catalog */}
           <div className="mt-16 text-center">
             <p className="text-[11px] text-gray-500 font-sans uppercase tracking-widest">
-              Quer ver todo o nosso catálogo de uma vez? Nós ajudamos você.
+              Quer ver todo o nosso catálogo de uma vez? Fale conosco no WhatsApp ou confira seu carrinho.
             </p>
-            <button
-              onClick={() => setIsBudgetOpen(true)}
-              className="mt-4 bg-brand-green hover:bg-brand-dark text-white border border-brand-gold/20 font-bold text-[10px] tracking-widest uppercase px-8 py-4 rounded-sm inline-flex items-center gap-2 shadow-md transition-all duration-300 cursor-pointer"
-            >
-              <BookmarkCheck className="w-4 h-4 text-brand-gold" />
-              <span>Ver Orçamento Personalizado ({budgetItems.reduce((sum, item) => sum + item.quantity, 0)} itens)</span>
-            </button>
+            <div className="mt-4 flex flex-col sm:flex-row justify-center gap-4">
+              <a
+                href="https://wa.me/5551989879933?text=Olá!%20Gostaria%20de%20solicitar%20o%20catálogo%20completo%20de%20materiais%20para%20locação."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] sm:text-xs tracking-widest uppercase px-8 py-4 rounded-sm inline-flex items-center justify-center gap-2 shadow-md transition-all duration-300 cursor-pointer"
+              >
+                <Phone className="w-4 h-4 text-white" />
+                <span>Solicitar Catálogo Completo no WhatsApp</span>
+              </a>
+              {budgetItems.length > 0 && (
+                <button
+                  onClick={() => setIsBudgetOpen(true)}
+                  className="bg-brand-green hover:bg-brand-dark text-white border border-brand-gold/20 font-bold text-[10px] sm:text-xs tracking-widest uppercase px-8 py-4 rounded-sm inline-flex items-center justify-center gap-2 shadow-md transition-all duration-300 cursor-pointer"
+                >
+                  <BookmarkCheck className="w-4 h-4 text-brand-gold" />
+                  <span>Ver Orçamento ({budgetItems.reduce((sum, item) => sum + item.quantity, 0)} itens)</span>
+                </button>
+              )}
+            </div>
           </div>
 
         </div>
@@ -732,6 +801,91 @@ export default function App() {
             <span className="flex items-center gap-1"><Check className="w-4 h-4 text-brand-gold" /> Aniversários e Festas Privadas</span>
           </div>
 
+        </div>
+      </section>
+
+      {/* SECTION - PARCELAMENTO NO CARTÃO */}
+      <section id="parcelamento" className="py-20 sm:py-28 bg-[#F7F7F5] border-t border-brand-gold/15 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
+          <div className="bg-white border border-brand-gold/20 rounded-sm p-8 sm:p-12 md:p-16 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              
+              <div className="lg:col-span-7 space-y-6">
+                <div>
+                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-brand-gold font-bold bg-brand-green/5 px-4 py-2 rounded-sm border border-brand-gold/20 inline-flex items-center gap-2">
+                    <CreditCard className="w-4 h-4 text-brand-gold" />
+                    <span>Facilite a organização do seu evento</span>
+                  </span>
+                  <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-brand-green mt-5 tracking-[0.05em] uppercase leading-tight">
+                    Realize seu evento dos sonhos sem pesar no orçamento.
+                  </h2>
+                  <div className="w-12 h-[2px] bg-brand-gold my-4" />
+                </div>
+
+                <p className="text-gray-600 font-sans text-sm sm:text-base leading-relaxed font-light">
+                  Na <strong className="text-brand-green font-semibold">Fest Sul Locações</strong>, você pode parcelar a locação dos materiais no cartão de crédito, tornando o planejamento muito mais tranquilo e acessível. Assim, você garante todos os itens para sua festa e distribui o pagamento em parcelas que cabem no seu bolso.
+                </p>
+
+                <ul className="space-y-3.5 pt-2">
+                  <li className="flex items-center gap-3 text-sm font-sans text-brand-green font-medium">
+                    <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+                      ✓
+                    </span>
+                    <span>Parcelamento no cartão de crédito</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm font-sans text-brand-green font-medium">
+                    <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+                      ✓
+                    </span>
+                    <span>Mais flexibilidade para organizar seu evento</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm font-sans text-brand-green font-medium">
+                    <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+                      ✓
+                    </span>
+                    <span>Atendimento rápido e orçamento personalizado</span>
+                  </li>
+                </ul>
+
+                <p className="text-xs text-gray-500 font-sans italic pt-1">
+                  Solicite um orçamento e consulte as condições de parcelamento.
+                </p>
+
+                <div className="pt-2">
+                  <a
+                    href="https://wa.me/5551989879933?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20e%20consultar%20as%20condições%20de%20parcelamento%20no%20cartão."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm tracking-widest uppercase px-8 py-4 rounded-sm inline-flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  >
+                    <Phone className="w-4 h-4 text-white" />
+                    <span>Solicitar Orçamento</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 flex flex-col items-center justify-center bg-brand-green/5 border border-brand-gold/20 p-8 rounded-sm text-center">
+                <div className="w-16 h-16 bg-brand-green text-brand-gold rounded-full flex items-center justify-center border border-brand-gold/30 mb-6 shadow-sm">
+                  <CreditCard className="w-8 h-8" />
+                </div>
+                <h3 className="font-display text-sm font-bold text-brand-green uppercase tracking-wider mb-2">
+                  Aceitamos Principais Bandeiras
+                </h3>
+                <p className="text-xs text-gray-500 font-sans mb-6 max-w-xs">
+                  Pagamento rápido, seguro e parcelado para a sua comodidade
+                </p>
+
+                <div className="bg-white p-4 rounded-sm border border-gray-200 shadow-xs max-w-sm w-full flex flex-wrap items-center justify-center gap-2">
+                  <span className="px-3 py-1.5 bg-blue-900 text-white font-bold text-xs rounded-xs tracking-wider">VISA</span>
+                  <span className="px-3 py-1.5 bg-red-600 text-white font-bold text-xs rounded-xs tracking-wider">MASTERCARD</span>
+                  <span className="px-3 py-1.5 bg-yellow-600 text-white font-bold text-xs rounded-xs tracking-wider">ELO</span>
+                  <span className="px-3 py-1.5 bg-red-700 text-white font-bold text-xs rounded-xs tracking-wider">HIPERCARD</span>
+                  <span className="px-3 py-1.5 bg-teal-600 text-white font-bold text-xs rounded-xs tracking-wider">PIX</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </section>
 

@@ -80,6 +80,72 @@ export default function Footer({ onNavigate }: FooterProps) {
     },
   ];
 
+  const eventOcassionGroups = [
+    {
+      title: "Eventos & Estrutura",
+      links: [
+        { label: "Locação para Eventos Porto Alegre", path: "/locacao-para-eventos-porto-alegre" },
+        { label: "Material para Eventos Porto Alegre", path: "/material-para-eventos-porto-alegre" },
+        { label: "Equipamentos para Eventos", path: "/equipamentos-para-eventos" },
+        { label: "Estrutura para Eventos", path: "/estrutura-para-eventos" },
+        { label: "Locação de Equipamentos para Festas", path: "/locacao-de-equipamentos-para-festas" },
+      ],
+    },
+    {
+      title: "Casamentos",
+      links: [
+        { label: "Locação para Casamento Porto Alegre", path: "/locacao-para-casamento-porto-alegre" },
+        { label: "Aluguel de Material para Casamento", path: "/aluguel-de-material-para-casamento" },
+        { label: "Louças para Casamento", path: "/loucas-para-casamento" },
+        { label: "Taças para Casamento", path: "/tacas-para-casamento" },
+        { label: "Mesas para Casamento", path: "/mesas-para-casamento" },
+        { label: "Cadeiras Tiffany Casamento", path: "/cadeiras-tiffany-casamento" },
+      ],
+    },
+    {
+      title: "Aniversários & Formaturas",
+      links: [
+        { label: "Locação para Aniversário Porto Alegre", path: "/locacao-para-aniversario-porto-alegre" },
+        { label: "Material para Aniversário", path: "/material-para-aniversario" },
+        { label: "Louças para Aniversário", path: "/loucas-para-aniversario" },
+        { label: "Taças para Aniversário", path: "/tacas-para-aniversario" },
+        { label: "Aluguel de Mesas para Aniversário", path: "/aluguel-de-mesas-para-aniversario" },
+        { label: "Locação para Formatura", path: "/locacao-para-formatura" },
+        { label: "Material para Formatura", path: "/material-para-formatura" },
+        { label: "Taças para Formatura", path: "/tacas-para-formatura" },
+        { label: "Mesas para Formatura", path: "/mesas-para-formatura" },
+      ],
+    },
+    {
+      title: "Eventos Corporativos",
+      links: [
+        { label: "Locação para Evento Corporativo", path: "/locacao-para-evento-corporativo" },
+        { label: "Material para Evento Empresarial", path: "/material-para-evento-empresarial" },
+        { label: "Equipamentos para Convenções", path: "/equipamentos-para-convencoes" },
+        { label: "Material para Palestras", path: "/material-para-palestras" },
+        { label: "Material para Confraternização", path: "/material-para-confraternizacao" },
+      ],
+    },
+    {
+      title: "Datas Especiais & Público",
+      links: [
+        { label: "Locação para Bodas", path: "/locacao-para-bodas" },
+        { label: "Locação para Chá de Bebê", path: "/locacao-para-cha-de-bebe" },
+        { label: "Locação para Chá Revelação", path: "/locacao-para-cha-revelacao" },
+        { label: "Locação para Batizado", path: "/locacao-para-batizado" },
+        { label: "Locação para Confraternização", path: "/locacao-para-confraternizacao" },
+        { label: "Locação para Natal", path: "/locacao-para-natal" },
+        { label: "Locação para Ano Novo", path: "/locacao-para-ano-novo" },
+        { label: "Locação para Empresas", path: "/locacao-para-empresas" },
+        { label: "Locação para Condomínios", path: "/locacao-para-condominios" },
+        { label: "Locação para Igrejas", path: "/locacao-para-igrejas" },
+        { label: "Locação para Escolas", path: "/locacao-para-escolas" },
+        { label: "Locação para Clubes", path: "/locacao-para-clubes" },
+        { label: "Locação para Salões de Festa", path: "/locacao-para-saloes-de-festa" },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-brand-dark text-white border-t border-brand-gold/20 pt-16 sm:pt-20 pb-12" id="site-footer">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
@@ -104,6 +170,36 @@ export default function Footer({ onNavigate }: FooterProps) {
                   <span>{group.title}</span>
                   <ArrowUpRight className="w-3 h-3 text-brand-gold opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
+                <ul className="space-y-1.5 text-[11px] font-sans text-gray-400">
+                  {group.links.map((link, lIdx) => (
+                    <li key={lIdx}>
+                      <a
+                        href={link.path}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNav(link.path);
+                        }}
+                        className="hover:text-brand-gold transition-colors block py-0.5"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="font-display text-xs font-bold uppercase tracking-[0.25em] text-brand-gold mt-12 mb-8 text-center sm:text-left pt-8 border-t border-brand-gold/15">
+            Soluções de Locação por Tipo de Evento & Público
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+            {eventOcassionGroups.map((group, idx) => (
+              <div key={idx} className="space-y-3">
+                <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white">
+                  {group.title}
+                </h4>
                 <ul className="space-y-1.5 text-[11px] font-sans text-gray-400">
                   {group.links.map((link, lIdx) => (
                     <li key={lIdx}>
@@ -187,6 +283,21 @@ export default function Footer({ onNavigate }: FooterProps) {
               className="font-sans text-gray-300 hover:text-brand-gold transition-colors duration-200 cursor-pointer"
             >
               Blog
+            </button>
+            <button
+              onClick={() => {
+                if (window.location.pathname !== "/") {
+                  handleNav("/");
+                  setTimeout(() => {
+                    document.getElementById("parcelamento")?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                } else {
+                  document.getElementById("parcelamento")?.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="font-sans text-gray-300 hover:text-brand-gold transition-colors duration-200 cursor-pointer"
+            >
+              Parcelamento
             </button>
           </div>
 

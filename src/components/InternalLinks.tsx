@@ -1,6 +1,7 @@
 import React from "react";
 import { categories } from "../data/catalog";
 import { blogPosts } from "../data/blog";
+import { seoLandingPages } from "../data/seoPages";
 
 interface InternalLinksProps {
   onNavigate?: (path: string) => void;
@@ -17,6 +18,8 @@ export default function InternalLinks({ onNavigate }: InternalLinksProps) {
     }
   };
 
+  const mainSeoPages = seoLandingPages.slice(0, 8);
+
   return (
     <section className="bg-brand-green/5 border-t border-brand-gold/15 py-12 px-4 sm:px-8 mt-16">
       <div className="max-w-7xl mx-auto">
@@ -24,7 +27,7 @@ export default function InternalLinks({ onNavigate }: InternalLinksProps) {
           Navegação Rápida & Links Relevantes de Locação
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Categorias */}
           <div>
             <h4 className="font-display text-sm font-semibold text-brand-green mb-4">
@@ -43,6 +46,30 @@ export default function InternalLinks({ onNavigate }: InternalLinksProps) {
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 mr-2" />
                     Aluguel de {cat.title} em Porto Alegre
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Páginas por Evento */}
+          <div>
+            <h4 className="font-display text-sm font-semibold text-brand-green mb-4">
+              Locação por Tipo de Evento
+            </h4>
+            <ul className="space-y-2 text-xs text-gray-600 font-sans">
+              {mainSeoPages.map((p) => (
+                <li key={p.id}>
+                  <a
+                    href={`/${p.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNav(`/${p.slug}`);
+                    }}
+                    className="hover:text-brand-gold transition-colors flex items-center"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 mr-2" />
+                    {p.title}
                   </a>
                 </li>
               ))}

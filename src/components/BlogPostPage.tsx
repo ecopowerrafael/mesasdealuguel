@@ -93,6 +93,7 @@ export default function BlogPostPage({ post, onNavigate, onOpenBudget }: BlogPos
               width={1200}
               height={675}
               className="w-full h-auto max-h-[480px] object-cover"
+              referrerPolicy="no-referrer"
             />
           </div>
 
@@ -127,29 +128,29 @@ export default function BlogPostPage({ post, onNavigate, onOpenBudget }: BlogPos
           )}
 
           {/* CTA Banner */}
-          <div className="mt-12 p-8 bg-brand-green text-white rounded-sm border border-brand-gold/30 text-center">
-            <h3 className="font-display text-lg font-bold mb-2">
-              Precisa de Louças, Taças ou Mesas em Porto Alegre?
+          <div className="mt-12 p-8 sm:p-10 bg-brand-green text-white rounded-sm border border-brand-gold/30 text-center shadow-sm">
+            <h3 className="font-display text-lg sm:text-xl font-bold mb-2">
+              Precisa de Louças, Taças ou Mesas para seu Evento em Porto Alegre?
             </h3>
-            <p className="text-xs text-gray-200 font-sans mb-6 max-w-lg mx-auto font-light">
-              Solicite um orçamento rápido online de locação com a equipe da Fest Sul. Garantimos peças esterilizadas e entrega pontual no seu salão.
+            <p className="text-xs sm:text-sm text-gray-200 font-sans mb-6 max-w-lg mx-auto font-light leading-relaxed">
+              Fale diretamente com nossa equipe no WhatsApp para atendimento imediato ou consulte todos os itens do nosso catálogo.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                onClick={onOpenBudget}
-                className="py-3 px-6 bg-brand-gold text-brand-green font-display text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
-              >
-                Montar Orçamento Online
-              </button>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-3 px-6 border border-brand-gold text-white font-display text-xs font-bold uppercase tracking-widest hover:bg-brand-gold/20 transition-colors inline-flex items-center gap-2"
+                className="py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-display text-xs font-bold uppercase tracking-widest transition-colors inline-flex items-center justify-center gap-2 shadow-sm"
               >
-                <Phone className="w-3.5 h-3.5 text-brand-gold" />
-                Atendimento via WhatsApp
+                <Phone className="w-4 h-4 text-white" />
+                <span>Solicitar Orçamento no WhatsApp</span>
               </a>
+              <button
+                onClick={() => onNavigate("/")}
+                className="py-3.5 px-6 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-display text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
+              >
+                Ver Todos os Itens Disponíveis para Locação
+              </button>
             </div>
           </div>
         </article>

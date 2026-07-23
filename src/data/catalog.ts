@@ -13,7 +13,7 @@ export const categories: Category[] = [
     ],
     title: "Louças e Pratos de Porcelana",
     icon: "Utensils",
-    image: "https://www.nortefesta.com.br/wp-content/uploads/2019/03/Talheres.jpg",
+    image: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Porcelanas brancas filetadas em ouro e pratos nobres para aluguel em Porto Alegre",
     description: "Porcelanas brancas refinadas com acabamento impecável, filetados a ouro, pratos rasos, fundos, sobremesa e travessas higienizadas para casamentos e banquetes em Porto Alegre.",
     seoContent: {
@@ -169,7 +169,7 @@ export const categories: Category[] = [
     ],
     title: "Talheres e Facas Gourmet Inox",
     icon: "ForkSpoon",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGcQpDTvvXqeW9WUCRY5AQ90Ko9UILYmyWyT8hH_R7CxeZCENo7MQpytI&s=10",
+    image: "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Talheres de aço inox polido de luxo para aluguel de festas em Porto Alegre",
     description: "Aluguel de talheres inox em Porto Alegre, faqueiros completos para banquetes, facas gourmet de corte preciso e talheres para serviço de buffet.",
     seoContent: {
@@ -272,7 +272,7 @@ export const categories: Category[] = [
         name: "Faqueiro Inox Completo de Luxo",
         description: "Jogo harmônico de facas, garfos e colheres de inox polido para mesas de recepção.",
         longDescription: "Faqueiro de inox de alta gramatura com acabamento espelhado. Composição perfeita para casamentos e banquetes empresariais em Porto Alegre.",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGcQpDTvvXqeW9WUCRY5AQ90Ko9UILYmyWyT8hH_R7CxeZCENo7MQpytI&s=10",
+        image: "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&q=80&w=800",
         imageAlt: "Aluguel de faqueiros inox em Porto Alegre",
         imageWidth: 600,
         imageHeight: 600,
@@ -315,7 +315,7 @@ export const categories: Category[] = [
     ],
     title: "Taças de Cristal de Luxo",
     icon: "Wine",
-    image: "https://images.tcdn.com.br/img/img_prod/584235/kit_cocktail_com_4_tacas_mixologista_vidro_ruvolo_438984884_1_dcd80a06bfcd785dd36def9c0acc77b8_20250317122052.jpg",
+    image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Taças de cristal para espumante, vinho tinto, vinho branco, água, gin e whisky para aluguel em Porto Alegre",
     description: "Locação e aluguel de taças de cristal em Porto Alegre: espumante, vinho tinto, vinho branco, água, gin tônica, whisky e taças especiais para casamentos.",
     seoContent: {
@@ -422,7 +422,7 @@ export const categories: Category[] = [
         name: "Taça de Cristal para Gin Tônica (Bojo Amplo)",
         description: "Bojo balão de 600ml para acomodar bastante gelo, botânicos e especiarias de gin.",
         longDescription: "Taça balão confeccionada em cristal de alta transparência. Perfeita para bar de drinks e coquetéis de gin tônica aromáticos.",
-        image: "https://images.tcdn.com.br/img/img_prod/584235/kit_cocktail_com_4_tacas_mixologista_vidro_ruvolo_438984884_1_dcd80a06bfcd785dd36def9c0acc77b8_20250317122052.jpg",
+        image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800",
         imageAlt: "Taça de cristal para gin tônica em eventos de Porto Alegre",
         imageWidth: 600,
         imageHeight: 600,
@@ -464,7 +464,7 @@ export const categories: Category[] = [
     ],
     title: "Copos de Vidro e Acrílico Nobre",
     icon: "GlassWater",
-    image: "https://images.unsplash.com/photo-1569529465841-df8201f9c1c1?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1569529465841-df8201f9c1c1?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Copos de vidro transparente long drink, whisky e cerveja para eventos em Porto Alegre",
     description: "Aluguel e locação de copos em Porto Alegre: copos long drink, copos whisky, copos de cerveja/chopp e copos de vidro transparente para festas e open bar.",
     seoContent: {
@@ -574,7 +574,7 @@ export const categories: Category[] = [
     ],
     title: "Rechauds e Equipamentos de Buffet",
     icon: "ConciergeBell",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqkNcMRu0NXPSQtdZB3YKdu5aOm8_alIeJesk0E44aq5zJGSZMWWEmOvqY&s=10",
+    image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Aluguel de rechauds de inox banho-maria retangulares e redondos para buffet em Porto Alegre",
     description: "Aluguel e locação de rechaud em Porto Alegre: rechauds inox retangulares com cuba dupla, rechauds redondos para massas e molhos, e equipamentos de buffet.",
     seoContent: {
@@ -627,7 +627,7 @@ export const categories: Category[] = [
         name: "Rechaud Inox Redondo com Tampa Basculante",
         description: "Modelo redondo para servir sopas, molhos quentes, risotos e estrogonofes.",
         longDescription: "Rechaud circular em aço inox cirúrgico com tampa basculante panorâmica e cuba redonda profunda. Perfeito para servir pratos cremosos mantendo o vapor quente.",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqkNcMRu0NXPSQtdZB3YKdu5aOm8_alIeJesk0E44aq5zJGSZMWWEmOvqY&s=10",
+        image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&q=80&w=800",
         imageAlt: "Rechaud redondo de inox para buffet em Porto Alegre",
         imageWidth: 600,
         imageHeight: 600,
@@ -685,7 +685,7 @@ export const categories: Category[] = [
     ],
     title: "Mesas e Cadeiras",
     icon: "Armchair",
-    image: "https://donylocacoes.com.br/wp-content/uploads/2020/06/Cadeira-de-Ferro-Branca.jpg",
+    image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Locação de Cadeiras Tiffany Dourada, Cristal, Paris e Mesas Redondas em Porto Alegre",
     description: "Cadeiras Tiffany Dourada, Cristal e Paris em Madeira, além de Mesas Redondas de banquete e Bistrôs altos para layouts impecáveis.",
     seoContent: {
@@ -792,7 +792,7 @@ export const categories: Category[] = [
     ],
     title: "Toalhas de Mesa e Guardanapos",
     icon: "Grid",
-    image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Toalhas de mesa compridas e guardanapos de tecido engomados para aluguel em Porto Alegre",
     description: "Toalhas de mesa jacquard e oxford com caimento até o chão, cobre-mesas e guardanapos de tecido 100% algodão engomados.",
     seoContent: {
@@ -858,7 +858,7 @@ export const categories: Category[] = [
     ],
     title: "Materiais de Serviço e Garçom",
     icon: "ConciergeBell",
-    image: "https://images.unsplash.com/photo-1581333100576-b73bbe79c955?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1581333100576-b73bbe79c955?auto=format&fit=crop&q=80&w=800",
     imageAlt: "Bandejas antiderrapantes e javras para serviço de garçons em Porto Alegre",
     description: "Bandejas antiderrapantes, jarras de cristal para água e suco, alicates de massa, pinças e pegadores higiênicos para garçons e coquetéis.",
     seoContent: {

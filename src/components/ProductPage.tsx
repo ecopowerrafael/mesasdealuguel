@@ -104,6 +104,7 @@ export default function ProductPage({
               width={product.imageWidth || 600}
               height={product.imageHeight || 600}
               className="w-full h-auto max-h-[480px] object-contain transition-transform duration-500 group-hover:scale-105"
+              referrerPolicy="no-referrer"
             />
             <span className="absolute top-4 left-4 bg-brand-green text-brand-gold text-[10px] uppercase font-display tracking-widest px-3 py-1 font-bold shadow-xs">
               Higienizado & Pronta Entrega
@@ -278,6 +279,7 @@ export default function ProductPage({
                     width={400}
                     height={400}
                     className="w-full h-40 object-contain mb-3 group-hover:scale-105 transition-transform"
+                    referrerPolicy="no-referrer"
                   />
                   <h3 className="font-display text-xs font-bold text-brand-green group-hover:text-brand-gold transition-colors line-clamp-2">
                     {rel.name}
@@ -289,6 +291,33 @@ export default function ProductPage({
               ))}
           </div>
         </section>
+
+        {/* Bottom CTA Banner */}
+        <div className="mt-12 p-8 sm:p-10 bg-brand-green text-white rounded-sm border border-brand-gold/30 text-center shadow-sm">
+          <h3 className="font-display text-xl font-bold mb-2">
+            Quer ver todas as opções de louças, taças e talheres para seu evento?
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-200 font-sans mb-6 max-w-xl mx-auto font-light leading-relaxed">
+            Consulte nosso catálogo online completo ou fale diretamente com nossa equipe no WhatsApp para montar seu orçamento sob medida.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-display text-xs font-bold uppercase tracking-widest transition-colors inline-flex items-center justify-center gap-2 shadow-sm"
+            >
+              <Phone className="w-4 h-4 text-white" />
+              <span>Solicitar Orçamento no WhatsApp</span>
+            </a>
+            <button
+              onClick={() => onNavigate("/")}
+              className="py-3.5 px-6 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-display text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
+            >
+              Ver Todos os Itens Disponíveis para Locação
+            </button>
+          </div>
+        </div>
       </main>
 
       <InternalLinks onNavigate={onNavigate} />

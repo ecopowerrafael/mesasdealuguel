@@ -1,21 +1,26 @@
 import { useEffect } from "react";
 import { Category, Product, BlogPost } from "../types";
+import { SeoLandingPageData } from "../data/seoPages";
 
 interface SEOHeadProps {
   category?: Category | null;
   product?: Product | null;
   post?: BlogPost | null;
+  seoPage?: SeoLandingPageData | null;
   currentPath?: string;
   isBudgetOpen?: boolean;
 }
 
-export default function SEOHead({ category, product, post, currentPath = "/", isBudgetOpen }: SEOHeadProps) {
+export default function SEOHead({ category, product, post, seoPage, currentPath = "/", isBudgetOpen }: SEOHeadProps) {
   useEffect(() => {
     let title = "Fest Sul Locações | Aluguel de Louças, Taças, Talheres e Mesas em Porto Alegre";
     let description =
       "Fest Sul Locações em Porto Alegre - RS. Aluguel de louças de porcelana, taças de cristal, talheres gourmet de inox, copos, mesas e cadeiras Tiffany para casamentos, formaturas e eventos corporativos.";
 
-    if (product) {
+    if (seoPage) {
+      title = pageTitle(seoPage.metaTitle);
+      description = seoPage.metaDescription;
+    } else if (product) {
       title = `${product.name} - Aluguel | Fest Sul Locações Porto Alegre`;
       description = `Aluguel de ${product.name} em Porto Alegre e Região Metropolitana. ${product.description} Peça seu orçamento online com a Fest Sul.`;
     } else if (category) {
@@ -50,7 +55,12 @@ export default function SEOHead({ category, product, post, currentPath = "/", is
 
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.setAttribute("content", description);
-  }, [category, product, post, currentPath, isBudgetOpen]);
+  }, [category, product, post, seoPage, currentPath, isBudgetOpen]);
+
+  function pageTitle(t: string) {
+    if (t.includes("Fest Sul")) return t;
+    return `${t} | Fest Sul Locações Porto Alegre`;
+  }
 
   // General Organization & LocalBusiness Schema
   const businessSchema = {
