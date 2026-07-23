@@ -194,12 +194,12 @@ export default function SeoLandingPage({
       </section>
 
       {/* Main Content & Features Section */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section className="py-12 sm:py-20 px-4 sm:px-8 w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Editorial SEO Text */}
           <div className="lg:col-span-8 space-y-8">
-            <div className="bg-white p-8 sm:p-10 rounded-sm border border-brand-gold/20 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-10 rounded-sm border border-brand-gold/20 shadow-xs space-y-6">
               <h2 className="font-display text-xl sm:text-2xl font-bold text-brand-green uppercase tracking-wide border-b border-brand-gold/20 pb-4">
                 Por que escolher a Fest Sul para {page.title}?
               </h2>
@@ -245,16 +245,16 @@ export default function SeoLandingPage({
 
             {/* Event Tips Card */}
             {page.eventTips && page.eventTips.length > 0 && (
-              <div className="bg-brand-green/5 border border-brand-gold/25 p-8 rounded-sm space-y-4">
+              <div className="bg-brand-green/5 border border-brand-gold/25 p-6 sm:p-8 rounded-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-brand-gold" />
                   <h3 className="font-display text-sm font-bold uppercase tracking-wider text-brand-green">
                     Dicas de Organização para {page.title}
                   </h3>
                 </div>
-                <ul className="space-y-2.5 text-xs sm:text-sm text-gray-700 font-sans">
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-gray-700 font-sans">
                   {page.eventTips.map((tip, tIdx) => (
-                    <li key={tIdx} className="flex items-start gap-2.5">
+                    <li key={tIdx} className="flex items-start gap-2.5 bg-white p-3 rounded-xs border border-brand-gold/10">
                       <span className="text-brand-gold font-bold">•</span>
                       <span>{tip}</span>
                     </li>
@@ -267,7 +267,7 @@ export default function SeoLandingPage({
           {/* Sidebar CTA & Quick Contact */}
           <div className="lg:col-span-4 space-y-6">
             {/* Direct WhatsApp Quote Box */}
-            <div className="bg-brand-green text-white p-6 sm:p-8 rounded-sm border border-brand-gold/30 shadow-md space-y-5 sticky top-28">
+            <div className="bg-brand-green text-white p-6 sm:p-8 rounded-sm border border-brand-gold/30 shadow-md space-y-5 lg:sticky lg:top-24">
               <span className="text-[10px] font-display uppercase tracking-[0.2em] text-brand-gold font-bold block">
                 Orçamento Rápido em Porto Alegre
               </span>
@@ -312,7 +312,7 @@ export default function SeoLandingPage({
 
       {/* Featured Products Showcase */}
       {featuredProducts.length > 0 && (
-        <section id="produtos-recomendados" className="py-16 bg-white border-t border-brand-gold/15">
+        <section id="produtos-recomendados" className="py-16 bg-white border-t border-brand-gold/15 w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-xs font-display uppercase tracking-[0.2em] text-brand-gold font-bold">
@@ -339,11 +339,11 @@ export default function SeoLandingPage({
                     className="bg-[#F9F9F7] border border-brand-gold/20 rounded-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group"
                   >
                     <div>
-                      <div className="relative h-48 overflow-hidden bg-white">
+                      <div className="relative h-48 overflow-hidden bg-white p-2">
                         <img
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO6vZEeGiFjNIt9DAktn6E4JpbpoMAwBCf9pJP035bDpciMX8VdQMe9JI&s=10"
-                          alt={product.imageAlt}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          src={product.image}
+                          alt={product.imageAlt || product.name}
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                           referrerPolicy="no-referrer"
                         />
                         <span className="absolute top-2 left-2 bg-brand-dark/80 text-brand-gold text-[9px] uppercase tracking-wider px-2 py-1 rounded-xs font-display">
@@ -382,8 +382,8 @@ export default function SeoLandingPage({
 
       {/* FAQ Accordion */}
       {page.faq && page.faq.length > 0 && (
-        <section className="py-16 px-4 sm:px-8 max-w-4xl mx-auto">
-          <div className="text-center mb-10">
+        <section className="py-16 px-4 sm:px-8 max-w-7xl mx-auto w-full">
+          <div className="text-center mb-10 max-w-2xl mx-auto">
             <span className="text-xs font-display uppercase tracking-[0.2em] text-brand-gold font-bold">
               Perguntas Frequentes
             </span>
@@ -393,7 +393,9 @@ export default function SeoLandingPage({
             <div className="w-12 h-[2px] bg-brand-gold mx-auto my-3" />
           </div>
 
-          <FAQAccordion items={page.faq} />
+          <div className="max-w-4xl mx-auto">
+            <FAQAccordion items={page.faq} />
+          </div>
         </section>
       )}
 

@@ -875,12 +875,13 @@ export default function App() {
                   Pagamento rápido, seguro e parcelado para a sua comodidade
                 </p>
 
-                <div className="bg-white p-4 rounded-sm border border-gray-200 shadow-xs max-w-sm w-full flex flex-wrap items-center justify-center gap-2">
-                  <span className="px-3 py-1.5 bg-blue-900 text-white font-bold text-xs rounded-xs tracking-wider">VISA</span>
-                  <span className="px-3 py-1.5 bg-red-600 text-white font-bold text-xs rounded-xs tracking-wider">MASTERCARD</span>
-                  <span className="px-3 py-1.5 bg-yellow-600 text-white font-bold text-xs rounded-xs tracking-wider">ELO</span>
-                  <span className="px-3 py-1.5 bg-red-700 text-white font-bold text-xs rounded-xs tracking-wider">HIPERCARD</span>
-                  <span className="px-3 py-1.5 bg-teal-600 text-white font-bold text-xs rounded-xs tracking-wider">PIX</span>
+                <div className="bg-white p-4 rounded-sm border border-gray-200 shadow-xs max-w-sm w-full flex items-center justify-center">
+                  <img
+                    src="https://images.seeklogo.com/logo-png/43/2/bandeiras-de-cartao-de-credito-logo-png_seeklogo-431666.png"
+                    alt="Bandeiras de cartão de crédito aceitas na Fest Sul Locações"
+                    className="max-h-16 w-auto object-contain"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
               </div>
 

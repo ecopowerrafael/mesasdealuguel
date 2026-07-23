@@ -117,71 +117,73 @@ export default function Header({ budgetItemsCount, onOpenBudget, onNavigate }: H
             </button>
 
             {/* Eventos Dropdown */}
-            <div className="relative group">
+            <div
+              className="relative"
+              onMouseEnter={() => setIsEventsDropdownOpen(true)}
+              onMouseLeave={() => setIsEventsDropdownOpen(false)}
+            >
               <button
                 onClick={() => setIsEventsDropdownOpen(!isEventsDropdownOpen)}
-                onMouseEnter={() => setIsEventsDropdownOpen(true)}
-                className={`transition-colors duration-200 cursor-pointer inline-flex items-center gap-1 ${
+                className={`transition-colors duration-200 cursor-pointer inline-flex items-center gap-1 py-2 ${
                   isScrolled ? "text-brand-green/80 hover:text-brand-gold-dark" : "text-gray-200 hover:text-brand-gold"
                 }`}
               >
                 <span>Eventos & Ocasiões</span>
-                <ChevronDown className="w-3 h-3 text-brand-gold" />
+                <ChevronDown className={`w-3 h-3 text-brand-gold transition-transform duration-200 ${isEventsDropdownOpen ? "rotate-180" : ""}`} />
               </button>
 
               {/* Dropdown Menu */}
-              <div
-                onMouseLeave={() => setIsEventsDropdownOpen(false)}
-                className={`absolute top-full left-0 w-64 bg-brand-dark/95 backdrop-blur-md border border-brand-gold/30 rounded-sm shadow-xl p-2 transition-all duration-200 z-50 ${
-                  isEventsDropdownOpen ? "opacity-100 visible translate-y-1" : "opacity-0 invisible translate-y-0"
-                }`}
-              >
-                <div className="text-[10px] uppercase font-sans font-bold text-brand-gold px-3 py-1 border-b border-brand-gold/15 mb-1">
-                  Soluções por Ocasião
+              {isEventsDropdownOpen && (
+                <div
+                  className="absolute top-full left-0 w-64 bg-brand-dark/98 backdrop-blur-md border border-brand-gold/30 rounded-sm shadow-2xl p-2 transition-all duration-200 z-50 mt-0"
+                >
+                  <div className="text-[10px] uppercase font-sans font-bold text-brand-gold px-3 py-1 border-b border-brand-gold/15 mb-1">
+                    Soluções por Ocasião
+                  </div>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-eventos-porto-alegre"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Locação para Eventos
+                  </button>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-casamento-porto-alegre"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Casamentos
+                  </button>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-aniversario-porto-alegre"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Aniversários
+                  </button>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-formatura"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Formaturas
+                  </button>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-evento-corporativo"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Eventos Corporativos
+                  </button>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-natal"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Datas Especiais & Ceias
+                  </button>
+                  <button
+                    onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-empresas"); }}
+                    className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
+                  >
+                    Empresas, Condomínios e Clubes
+                  </button>
                 </div>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-eventos-porto-alegre"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Locação para Eventos
-                </button>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-casamento-porto-alegre"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Casamentos
-                </button>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-aniversario-porto-alegre"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Aniversários
-                </button>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-formatura"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Formaturas
-                </button>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-evento-corporativo"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Eventos Corporativos
-                </button>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-natal"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Datas Especiais & Ceias
-                </button>
-                <button
-                  onClick={() => { setIsEventsDropdownOpen(false); handleNav("/locacao-para-empresas"); }}
-                  className="w-full text-left px-3 py-1.5 text-[10px] uppercase text-gray-200 hover:text-brand-gold hover:bg-white/5 rounded-xs transition-colors"
-                >
-                  Empresas, Condomínios e Clubes
-                </button>
-              </div>
+              )}
             </div>
 
             <button
