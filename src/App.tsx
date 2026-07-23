@@ -875,11 +875,11 @@ export default function App() {
                   Pagamento rápido, seguro e parcelado para a sua comodidade
                 </p>
 
-                <div className="bg-white p-4 rounded-sm border border-gray-200 shadow-xs max-w-sm w-full flex items-center justify-center">
+                <div className="w-full flex items-center justify-center pt-2">
                   <img
                     src="https://images.seeklogo.com/logo-png/43/2/bandeiras-de-cartao-de-credito-logo-png_seeklogo-431666.png"
                     alt="Bandeiras de cartão de crédito aceitas na Fest Sul Locações"
-                    className="max-h-16 w-auto object-contain"
+                    className="h-40 sm:h-48 max-w-full w-auto object-contain drop-shadow-sm"
                     referrerPolicy="no-referrer"
                   />
                 </div>
